@@ -190,46 +190,31 @@ class LfCNN(nn.Module):
         x = self.classifier2(x)
         return x
 
-class DarkResidualBlock(nn.Module):
-    def __init__(self, in_channels):
-        super(DarkResidualBlock, self).__init__()
-
-        reduced_channels = int(in_channels/2)
-
-        self.layer1 = conv_batch(in_channels, reduced_channels, kernel_size=1, padding=0)
-        self.layer2 = conv_batch(reduced_channels, in_channels)
-
-    def forward(self, x):
-        residual = x
-
-        out = self.layer1(x)
-        out = self.layer2(out)
-        out += residual
-        return out
-
-#darknet
-class DarkResidualBlock(nn.Module):
-    def __init__(self, in_channels):
-        super(DarkResidualBlock, self).__init__()
-
-        reduced_channels = int(in_channels/2)
-
-        self.layer1 = conv_batch(in_channels, reduced_channels, kernel_size=1, padding=0)
-        self.layer2 = conv_batch(reduced_channels, in_channels)
-
-    def forward(self, x):
-        residual = x
-
-        out = self.layer1(x)
-        out = self.layer2(out)
-        out += residual
-        return out
-        
+#Darknet retirada do https://github.com/developer0hye/PyTorch-Darknet53
 def conv_batch(in_num, out_num, kernel_size=3, padding=1, stride=1):
     return nn.Sequential(
         nn.Conv2d(in_num, out_num, kernel_size=kernel_size, stride=stride, padding=padding, bias=False),
         nn.BatchNorm2d(out_num),
         nn.LeakyReLU())
+
+
+# Residual block
+class DarkResidualBlock(nn.Module):
+    def __init__(self, in_channels):
+        super(DarkResidualBlock, self).__init__()
+
+        reduced_channels = int(in_channels/2)
+
+        self.layer1 = conv_batch(in_channels, reduced_channels, kernel_size=1, padding=0)
+        self.layer2 = conv_batch(reduced_channels, in_channels)
+
+    def forward(self, x):
+        residual = x
+
+        out = self.layer1(x)
+        out = self.layer2(out)
+        out += residual
+        return out
 
 class Darknet53(nn.Module):
     def __init__(self, block, num_classes):

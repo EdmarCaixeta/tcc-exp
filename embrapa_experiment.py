@@ -37,7 +37,7 @@ def make_parser() -> ArgumentParser:
     
     return parser
 
-def get_DarkNet53():
+def get_darknet53():
     net = darknet53(1)
     net.name = "DarkNet53"
     return net
@@ -237,8 +237,8 @@ if __name__ == "__main__":
     elif args.model == "resnext101pretrained":
         get_model = get_resnext101_pretrained
     elif args.model == "darknet53":
-        get_model = get_DarkNet53()
-        
+        get_model = get_darknet53
+
     folder = args.experiment_folder
 
     make_dir(folder)
