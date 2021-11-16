@@ -208,6 +208,12 @@ class DarkResidualBlock(nn.Module):
         return out
 
 #darknet
+def conv_batch(in_num, out_num, kernel_size=3, padding=1, stride=1):
+    return nn.Sequential(
+        nn.Conv2d(in_num, out_num, kernel_size=kernel_size, stride=stride, padding=padding, bias=False),
+        nn.BatchNorm2d(out_num),
+        nn.LeakyReLU())
+        
 class Darknet53(nn.Module):
     def __init__(self, block, num_classes):
         super(Darknet53, self).__init__()
