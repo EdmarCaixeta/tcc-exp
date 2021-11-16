@@ -237,7 +237,7 @@ if __name__ == "__main__":
     elif args.model == "resnext101pretrained":
         get_model = get_resnext101_pretrained
     elif args.model == "darknet53":
-        gets_model = get_DarkNet53
+        get_model = get_DarkNet53()
         
     folder = args.experiment_folder
 
