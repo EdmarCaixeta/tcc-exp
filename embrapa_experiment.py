@@ -202,9 +202,8 @@ if __name__ == "__main__":
     parser = make_parser()
     args = parser.parse_args()
 
-    device = torch.device(f'cuda:{args.cuda_device_number}') if torch.cuda.is_available() else torch.device('cpu')
-    torch.cuda.set_device(device)
-
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    
     get_model = None
     if args.model == "alexnet":
         get_model = get_alexNet
@@ -298,6 +297,8 @@ if __name__ == "__main__":
         dltest = torch.utils.data.DataLoader(dstest, batch_size=args.batch_size)
 
         model = get_model()
+        model = nn.DataParallel(model)
+        model.to(device)
         
         opt = torch.optim.Adam(model.parameters(), lr=args.lr)
 
